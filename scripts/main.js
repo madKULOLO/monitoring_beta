@@ -35,6 +35,8 @@ function copyToClipboard(button) {
         button.textContent = 'Скопировано!';
         button.classList.add('copied');
         
+        button.offsetHeight;
+        
         setTimeout(() => {
             button.textContent = originalText;
             button.classList.remove('copied');
