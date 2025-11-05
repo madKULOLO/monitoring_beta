@@ -68,6 +68,18 @@
   --shadow-hover: rgba(0, 0, 0, 0.5);
 }
 
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #4A90D9;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #5AA0E9;
+}
+
+[data-theme="dark"] {
+  scrollbar-color: #4A90D9 var(--bg-secondary);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -882,6 +894,31 @@ body.error-page {
     width: 100%;
     text-align: center;
   }
+  
+  .architecture-diagram {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .component {
+    min-width: auto;
+    margin: var(--spacing-md) 0;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .component:first-child {
+    margin-top: 0;
+  }
+  
+  .component:last-child {
+    margin-bottom: 0;
+  }
+  
+  .component-arrow {
+    transform: rotate(90deg);
+    margin: var(--spacing-sm) 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1185,6 +1222,54 @@ nav a i {
 .theme-toggle i {
   font-size: 1.2rem;
   color: white;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  transition: all var(--transition-fast);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+.scroll-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background: var(--accent-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-to-top i {
+  font-size: 1.2rem;
+}
+
+[data-theme="dark"] .scroll-to-top {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .scroll-to-top:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .theme-toggle {
@@ -3226,6 +3311,15 @@ nav a i {
     text-align: center;
   }
   
+  .tech-feature-card .feature-icon {
+    align-self: center;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .tech-feature-card .feature-content {
+    text-align: center;
+  }
+  
   .service-card {
     flex-direction: column;
     text-align: center;
@@ -3296,11 +3390,15 @@ nav a i {
   }
   
   .step {
-    flex-direction: column;
+    flex-direction: row;
   }
   
   .step-number {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 0;
+    margin-right: var(--spacing-md);
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
   }
   
   .copy-btn {
