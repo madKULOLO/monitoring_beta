@@ -69,15 +69,15 @@
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: #4A90D9;
+  background: #FF8C66;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: #5AA0E9;
+  background: #FF9C76;
 }
 
 [data-theme="dark"] {
-  scrollbar-color: #4A90D9 var(--bg-secondary);
+  scrollbar-color: #FF8C66 var(--bg-secondary);
 }
 
 * {
@@ -1264,11 +1264,13 @@ nav a i {
 }
 
 [data-theme="dark"] .scroll-to-top {
+  background: #FF8C66;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .scroll-to-top:hover {
+  background: #FF9C76;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
