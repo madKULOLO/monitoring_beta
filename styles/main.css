@@ -949,6 +949,11 @@ body.error-page {
     font-size: var(--font-size-md);
   }
   
+  nav {
+    order: 3;
+    width: 100%;
+  }
+  
   nav a {
     padding: var(--spacing-xs) var(--spacing-xs);
     font-size: var(--font-size-xs);
@@ -3182,6 +3187,7 @@ nav a i {
   .header-top {
     flex-wrap: wrap;
     padding: var(--spacing-sm) 0;
+    position: relative;
   }
   
   .header-logo {
@@ -3198,6 +3204,11 @@ nav a i {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  nav {
+    order: 3;
+    width: 100%;
   }
   
   nav ul {
@@ -3265,6 +3276,11 @@ nav a i {
   .logo-text .tagline {
     font-size: var(--font-size-xs);
     display: none;
+  }
+  
+  nav {
+    order: 3;
+    width: 100%;
   }
   
   nav ul {
