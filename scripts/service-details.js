@@ -156,11 +156,11 @@ function displayServiceDetails(monitor) {
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="maxDuration">0 сек</div>
-                            <div class="stat-label">Макс. продолжительность</div>
+                            <div class="stat-label">Макс. время</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="avgDuration">0 сек</div>
-                            <div class="stat-label">Средняя продолжительность</div>
+                            <div class="stat-label">Ср. время</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="totalFailures">0</div>
