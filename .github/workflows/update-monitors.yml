@@ -24,15 +24,45 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
       - name: Get monitors data from UptimeRobot API
         run: |
+          echo "Fetching monitors data from UptimeRobot API..."
           curl -X POST "https://api.uptimerobot.com/v2/getMonitors" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Cache-Control: no-cache" \
             -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&response_times=1&response_times_average=30&custom_uptime_ratios=7" \
             -o "api_response.json"
-
+          
+          # Check if the API response is valid
+          if [ ! -s api_response.json ]; then
+            echo "Error: API response is empty"
+            exit 1
+          fi
+          
+          # Check if the response contains an error
+          if grep -q '"stat":"fail"' api_response.json; then
+            echo "Error: API request failed"
+            cat api_response.json
+            exit 1
+          fi
+          
+          # Copy the response to monitors.json
           cp api_response.json monitors.json
+          
+          # Validate JSON
+          if ! jq empty monitors.json; then
+            echo "Error: monitors.json is not valid JSON"
+            cat monitors.json
+            exit 1
+          fi
+          
+          echo "Successfully fetched and validated monitors data"
+          echo "Monitors count: $(jq '.monitors | length' monitors.json)"
 
       - name: Commit and push changes
         env:
@@ -40,9 +70,14 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
+          
+          # Show current status
+          echo "Current git status:"
+          git status
+          
           # Check if there are changes
           if [[ `git status --porcelain` ]]; then
+            echo "Changes detected, committing and pushing..."
             git add monitors.json api_response.json
             git commit -m "Update monitors data: $(date)"
             git push origin main
@@ -50,3 +85,7 @@ jobs:
           else
             echo "No changes to commit"
           fi
+          
+          # Show the last commit
+          echo "Last commit:"
+          git log -1 --oneline
