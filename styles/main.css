@@ -3145,9 +3145,9 @@ main {
   background: var(--success);
 }
 
+/* Removed to prevent duplication with JavaScript text change */
 .copy-btn.copied::after {
-  content: "✓ Скопировано";
-  margin-left: 4px;
+  content: "";
 }
 
 [data-theme="dark"] .copy-btn {
