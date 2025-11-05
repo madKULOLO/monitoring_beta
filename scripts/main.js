@@ -19,11 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function copyToClipboard(button) {
+    if (button.classList.contains('copied')) {
+        return;
+    }
+    
     const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre');
     const text = codeBlock.textContent;
     
     navigator.clipboard.writeText(text).then(() => {
-        const originalText = button.textContent;
+        const originalText = button.getAttribute('data-original-text') || button.textContent;
+        if (!button.getAttribute('data-original-text')) {
+            button.setAttribute('data-original-text', originalText);
+        }
+        
         button.textContent = 'Скопировано!';
         button.classList.add('copied');
         
@@ -35,14 +43,5 @@ function copyToClipboard(button) {
         console.error('Ошибка копирования: ', err);
     });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    const copyButtons = document.querySelectorAll('.copy-btn');
-    copyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            copyToClipboard(this);
-        });
-    });
-});
 
 window.copyToClipboard = copyToClipboard;
