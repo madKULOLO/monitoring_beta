@@ -1,7 +1,4 @@
-// Модуль для страницы детального мониторинга сервиса
-
 function loadServiceDetails(serviceName) {
-    // Determine if we're running locally or on GitHub Pages
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     
     let url;
@@ -15,7 +12,6 @@ function loadServiceDetails(serviceName) {
         .then(response => response.json())
         .then(data => {
             if (data.stat === 'ok' && data.monitors) {
-                // Try exact match first, then case-insensitive match
                 let monitor = data.monitors.find(m => m.friendly_name === serviceName);
                 if (!monitor) {
                     monitor = data.monitors.find(m => 
