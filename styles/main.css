@@ -936,6 +936,28 @@ body.error-page {
     padding: var(--spacing-sm) var(--spacing-md);
     margin: 0;
   }
+  
+  .header-logo {
+    gap: var(--spacing-xs);
+  }
+  
+  .fox-icon {
+    font-size: 1.8rem;
+  }
+  
+  .logo-text h1 {
+    font-size: var(--font-size-md);
+  }
+  
+  nav a {
+    padding: var(--spacing-xs) var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+  
+  .theme-toggle {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 header {
@@ -3156,6 +3178,49 @@ nav a i {
   nav a i {
     font-size: var(--font-size-xs);
   }
+  
+  .header-top {
+    flex-wrap: wrap;
+    padding: var(--spacing-sm) 0;
+  }
+  
+  .header-logo {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .logo-text h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .logo-text .tagline {
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: var(--spacing-sm) 0;
+    width: 100%;
+  }
+  
+  nav li {
+    margin: var(--spacing-xs);
+  }
+  
+  nav a {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    margin: 0;
+  }
+  
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -3175,6 +3240,57 @@ nav a i {
     padding: var(--spacing-xs);
     font-size: var(--font-size-xs);
     min-width: 70px;
+  }
+  
+  .header-container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .header-top {
+    padding: var(--spacing-xs) 0;
+  }
+  
+  .header-logo {
+    gap: var(--spacing-sm);
+  }
+  
+  .fox-icon {
+    font-size: 2rem;
+  }
+  
+  .logo-text h1 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .logo-text .tagline {
+    font-size: var(--font-size-xs);
+    display: none;
+  }
+  
+  nav ul {
+    margin: var(--spacing-xs) 0;
+  }
+  
+  nav li {
+    margin: var(--spacing-xs);
+  }
+  
+  nav a {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+  
+  nav a i {
+    display: none;
+  }
+  
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .theme-toggle i {
+    font-size: 1rem;
   }
 }
 
