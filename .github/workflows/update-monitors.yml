@@ -1,0 +1,52 @@
+name: Update Monitors Data
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-monitors:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Get monitors data from UptimeRobot API
+        run: |
+          curl -X POST "https://api.uptimerobot.com/v2/getMonitors" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -H "Cache-Control: no-cache" \
+            -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&response_times=1&response_times_average=30&custom_uptime_ratios=7" \
+            -o "api_response.json"
+
+          cp api_response.json monitors.json
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Check if there are changes
+          if [[ `git status --porcelain` ]]; then
+            git add monitors.json api_response.json
+            git commit -m "Update monitors data: $(date)"
+            git push origin main
+            echo "Changes pushed successfully"
+          else
+            echo "No changes to commit"
+          fi

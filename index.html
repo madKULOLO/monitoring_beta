@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хитрая Лиса - Мониторинг цифровых сервисов</title>
+    <meta name="description" content="Хитрая Лиса - инновационная платформа для мониторинга критически важных цифровых сервисов. Получайте актуальную информацию о доступности и производительности ваших ресурсов в режиме реального времени.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-top">
+                <div class="header-logo" id="foxLogo">
+                    <span class="fox-icon" id="foxHead">🦊</span>
+                    <div class="logo-text">
+                        <h1>Хитрая Лиса</h1>
+                        <p class="tagline">Интеллектуальный мониторинг цифровой инфраструктуры</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                        <li><a href="how-it-works"><i class="fas fa-cogs"></i> FAQ</a></li>
+                        <li><a href="sdk"><i class="fas fa-code"></i> API</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="intro">
+            <h1>Мониторинг цифровых сервисов нового поколения</h1>
+            <p>Хитрая Лиса предоставляет интеллектуальный мониторинг критически важных цифровых сервисов с детальной аналитикой и прогнозированием доступности.</p>
+        </div>
+        
+        <div class="services-grid" id="servicesGrid">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Хитрая Лиса. Все права защищены.</p>
+        <p>Интеллектуальный мониторинг цифровой инфраструктуры</p>
+    </footer>
+
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                Мы используем файлы cookie для улучшения вашего пользовательского опыта и анализа трафика сайта. 
+                Продолжая использовать сайт, вы соглашаетесь с <a href="privacy-policy">Политикой конфиденциальности</a> 
+                и <a href="cookie-policy">Политикой использования файлов cookie</a>.
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn secondary" id="rejectCookies" onclick="handleReject()">Отклонить</button>
+                <button class="cookie-btn" id="acceptCookies" onclick="handleAccept()">Принять</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="easter-egg" id="easterEgg"></div>
+    <div class="overlay" id="overlay"></div>
+
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/cookie-consent.js"></script>
+    <script src="scripts/service-status.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/easter-egg.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initCookieConsent();
+            initEasterEgg();
+        });
+    </script>
+</body>
+</html>
