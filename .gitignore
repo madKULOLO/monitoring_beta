@@ -8,3 +8,5 @@ update-monitors.sh
 DEPLOYMENT_LINUX.md
 DEPLOYMENT_GITHUB.md
 not/
+api_response_clean.json
+api_response.json
