@@ -1798,6 +1798,14 @@ main {
     font-size: var(--font-size-sm);
     text-align: left;
   }
+  
+  footer {
+    font-size: var(--font-size-sm);
+  }
+  
+  footer p {
+    margin: var(--spacing-xs) 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1836,6 +1844,15 @@ main {
   
   .status-text {
     font-size: var(--font-size-sm);
+  }
+  
+  footer {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-md) 0;
+  }
+  
+  footer p {
+    margin: var(--spacing-xs) 0;
   }
 }
 
