@@ -1778,6 +1778,26 @@ main {
   .trend-chart {
     height: 80px;
   }
+  
+  .service-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .service-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .service-name {
+    font-size: var(--font-size-base);
+    text-align: left;
+  }
+  
+  .status-text {
+    font-size: var(--font-size-sm);
+    text-align: left;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1798,6 +1818,24 @@ main {
     font-size: 1.2rem;
     width: 35px;
     height: 35px;
+  }
+  
+  .service-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .service-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .service-name {
+    font-size: var(--font-size-base);
+  }
+  
+  .status-text {
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -2506,6 +2544,7 @@ main {
 [data-theme="dark"] header {
   background: linear-gradient(135deg, #1a1a1a, #252525);
   border-bottom: 1px solid #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] header::before {
