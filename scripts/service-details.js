@@ -619,7 +619,7 @@ function updateIncidentsList(monitor) {
     } else {
         incidentsList.innerHTML = `
             <div class="no-incidents">
-                <p>Нет данных об инцидентах</p>
+                <p>👍 Отлично, никаких инцидентов</p>
             </div>
         `;
     }
