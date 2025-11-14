@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (typeof fetchServiceStatus === 'function') {
         setTimeout(fetchServiceStatus, 100);
+        
+        setInterval(fetchServiceStatus, 300000);
     }
     
     console.log('Хитрая Лиса загружена! Подключение к интеллектуальной системе мониторинга...');
