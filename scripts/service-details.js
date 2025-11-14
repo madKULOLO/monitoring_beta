@@ -683,10 +683,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (serviceName) {
         loadServiceDetails(decodeURIComponent(serviceName));
         document.title = 'Детали мониторинга ' + decodeURIComponent(serviceName) + ' - Хитрая Лиса';
-        
-        setInterval(() => {
-            loadServiceDetails(decodeURIComponent(serviceName));
-        }, 300000);
     } else {
         document.getElementById('serviceDetails').innerHTML = `
             <div class="service-card" data-status="unknown">
