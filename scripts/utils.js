@@ -7,6 +7,10 @@ function formatTimeAgo(date) {
     const diffMs = now - date;
     const diffMins = Math.floor(diffMs / 60000);
     
+    if (diffMins > 10080) {
+        return 'Более 7 дней назад';
+    }
+    
     if (diffMins < 1) {
         return 'Только что';
     } else if (diffMins < 60) {

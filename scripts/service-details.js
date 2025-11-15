@@ -12,6 +12,11 @@ function loadServiceDetails(serviceName) {
         .then(response => response.json())
         .then(data => {
             if (data.stat === 'ok' && data.monitors) {
+                // Проверяем, есть ли функция cleanupOldLogs (в браузере её не будет)
+                if (typeof cleanupOldLogs === 'function') {
+                    data.monitors = cleanupOldLogs(data.monitors);
+                }
+                
                 let monitor = data.monitors.find(m => m.friendly_name === serviceName);
                 if (!monitor) {
                     monitor = data.monitors.find(m => 
@@ -53,18 +58,24 @@ function displayServiceDetails(monitor) {
     const favicon = getFaviconForService(monitor.friendly_name, monitor.url);
     
     let lastCheckText = 'Нет данных';
+    
+    let lastCheckDate = null;
     if (monitor.response_times && monitor.response_times.length > 0) {
         const lastResponse = monitor.response_times[0];
         if (lastResponse.datetime) {
-            lastCheckText = formatTimeAgo(new Date(lastResponse.datetime * 1000));
+            lastCheckDate = new Date(lastResponse.datetime * 1000);
         }
     } else if (monitor.logs && monitor.logs.length > 0) {
         const lastLog = monitor.logs[0];
         if (lastLog.datetime) {
-            lastCheckText = formatTimeAgo(new Date(lastLog.datetime * 1000));
+            lastCheckDate = new Date(lastLog.datetime * 1000);
         }
     } else if (monitor.create_datetime) {
-        lastCheckText = formatTimeAgo(new Date(monitor.create_datetime * 1000));
+        lastCheckDate = new Date(monitor.create_datetime * 1000);
+    }
+    
+    if (lastCheckDate) {
+        lastCheckText = formatTimeAgo(lastCheckDate);
     }
     
     let uptimePercentage = 'Нет данных';

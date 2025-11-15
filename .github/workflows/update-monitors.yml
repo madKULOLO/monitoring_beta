@@ -34,6 +34,15 @@ jobs:
 
           cp api_response.json monitors.json
 
+      - name: Validate and clean data
+        run: |
+          if [ ! -s monitors.json ]; then
+            echo "Error: monitors.json is empty or does not exist"
+            exit 1
+          fi
+          
+          node server-cleanup.js
+
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,7 +50,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-          # Check if there are changes
           if [[ `git status --porcelain` ]]; then
             git add monitors.json api_response.json
             git commit -m "Update monitors data: $(date)"
