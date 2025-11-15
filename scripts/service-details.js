@@ -70,8 +70,6 @@ function displayServiceDetails(monitor) {
         if (lastLog.datetime) {
             lastCheckDate = new Date(lastLog.datetime * 1000);
         }
-    } else if (monitor.create_datetime) {
-        lastCheckDate = new Date(monitor.create_datetime * 1000);
     }
     
     if (lastCheckDate) {
