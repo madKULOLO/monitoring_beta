@@ -85,7 +85,7 @@
                         
                         <div class="api-info-box">
                             <h4>Базовый URL</h4>
-                            <code>https://api.slyfox.su/v1</code>
+                            <code>https://sdk.slyfox.su/v1</code>
                         </div>
                         
                         <div class="api-info-box">
@@ -320,7 +320,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X GET "https://api.slyfox.su/v1/monitors?page=1&per_page=10" \
+                            <pre><code class="language-bash">curl -X GET "https://sdk.slyfox.su/v1/monitors?page=1&per_page=10" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json"</code></pre>
                         </div>
@@ -416,7 +416,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X POST "https://api.slyfox.su/v1/monitors" \
+                            <pre><code class="language-bash">curl -X POST "https://sdk.slyfox.su/v1/monitors" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -504,7 +504,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X PUT "https://api.slyfox.su/v1/monitors/m987654" \
+                            <pre><code class="language-bash">curl -X PUT "https://sdk.slyfox.su/v1/monitors/m987654" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -528,7 +528,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X DELETE "https://api.slyfox.su/v1/monitors/m987654" \
+                            <pre><code class="language-bash">curl -X DELETE "https://sdk.slyfox.su/v1/monitors/m987654" \
   -H "Authorization: Bearer YOUR_API_KEY"</code></pre>
                         </div>
                     </section>
@@ -547,7 +547,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X POST "https://api.slyfox.su/v1/monitors/m987654/pause" \
+                            <pre><code class="language-bash">curl -X POST "https://sdk.slyfox.su/v1/monitors/m987654/pause" \
   -H "Authorization: Bearer YOUR_API_KEY"</code></pre>
                         </div>
                     </section>
@@ -566,7 +566,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <h3>Пример запроса</h3>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
-                            <pre><code class="language-bash">curl -X POST "https://api.slyfox.su/v1/monitors/m987654/resume" \
+                            <pre><code class="language-bash">curl -X POST "https://sdk.slyfox.su/v1/monitors/m987654/resume" \
   -H "Authorization: Bearer YOUR_API_KEY"</code></pre>
                         </div>
                     </section>
@@ -637,7 +637,7 @@ X-RateLimit-Reset: 1609459200</code></pre>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyToClipboard(this)">Копировать</button>
                             <pre><code class="language-javascript">// JavaScript (fetch API)
-const response = await fetch('https://api.slyfox.su/v1/monitors', {
+const response = await fetch('https://sdk.slyfox.su/v1/monitors', {
   method: 'GET',
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY',
@@ -659,7 +659,7 @@ headers = {
     'Content-Type': 'application/json'
 }
 
-response = requests.get('https://api.slyfox.su/v1/monitors', headers=headers)
+response = requests.get('https://sdk.slyfox.su/v1/monitors', headers=headers)
 data = response.json()
 print(f'Статус мониторов: {data}')</code></pre>
                         </div>
@@ -671,7 +671,7 @@ print(f'Статус мониторов: {data}')</code></pre>
                             <pre><code class="language-javascript">// JavaScript с обработкой ошибок
 async function createMonitor(monitorData) {
   try {
-    const response = await fetch('https://api.slyfox.su/v1/monitors', {
+    const response = await fetch('https://sdk.slyfox.su/v1/monitors', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer YOUR_API_KEY',
@@ -724,7 +724,7 @@ class ServiceMonitor:
     
     def get_monitor_status(self, monitor_id):
         """Получить статус конкретного монитора"""
-        url = f'https://api.slyfox.su/v1/monitors/{monitor_id}'
+        url = f'https://sdk.slyfox.su/v1/monitors/{monitor_id}'
         response = requests.get(url, headers=self.headers)
         return response.json()
     
@@ -771,7 +771,7 @@ class ServiceMonitor:
                             <pre><code class="language-javascript">// JavaScript - анализ доступности сервисов
 async function generateAvailabilityReport() {
   try {
-    const response = await fetch('https://api.slyfox.su/v1/monitors', {
+    const response = await fetch('https://sdk.slyfox.su/v1/monitors', {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer YOUR_API_KEY',
@@ -855,7 +855,7 @@ def monitor_status_changes(api_key, bot_token, chat_id):
     }
     
     # Получаем начальное состояние
-    response = requests.get('https://api.slyfox.su/v1/monitors', headers=headers)
+    response = requests.get('https://sdk.slyfox.su/v1/monitors', headers=headers)
     previous_status = {m['id']: m['status'] for m in response.json()['data']}
     
     print('Начинаем мониторинг изменений статуса...')
@@ -863,7 +863,7 @@ def monitor_status_changes(api_key, bot_token, chat_id):
     while True:
         try:
             # Получаем текущее состояние
-            response = requests.get('https://api.slyfox.su/v1/monitors', headers=headers)
+            response = requests.get('https://sdk.slyfox.su/v1/monitors', headers=headers)
             current_status = {m['id']: m['status'] for m in response.json()['data']}
             
             # Проверяем изменения
