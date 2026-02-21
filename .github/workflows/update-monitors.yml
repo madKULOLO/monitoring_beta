@@ -17,36 +17,68 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Get monitors data from UptimeRobot API
+      - name: Fetch monitors from UptimeRobot API
+        id: fetch
         run: |
-          curl -X POST "https://api.uptimerobot.com/v2/getMonitors" \
+          HTTP_CODE=$(curl -s -o api_response_raw.json -w "%{http_code}" \
+            --connect-timeout 20 \
+            --max-time 45 \
+            -X POST "https://api.uptimerobot.com/v2/getMonitors" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Cache-Control: no-cache" \
-            -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&response_times=1&response_times_average=30&custom_uptime_ratios=7" \
-            -o "api_response.json"
+            -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&response_times=1&response_times_average=30&custom_uptime_ratios=7")
 
-          cp api_response.json monitors.json
+          echo "HTTP status: $HTTP_CODE"
 
-      - name: Commit and push changes
+          # Abort if HTTP error
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::warning::UptimeRobot API returned HTTP $HTTP_CODE — skipping update"
+            exit 0
+          fi
+
+          # Validate: must be JSON with stat=ok
+          STAT=$(python3 -c "import json,sys; d=json.load(open('api_response_raw.json')); print(d.get('stat',''))" 2>/dev/null || echo "parse_error")
+          if [ "$STAT" != "ok" ]; then
+            echo "::warning::API stat='$STAT' (not ok) — skipping update"
+            exit 0
+          fi
+
+          # Inject last_updated timestamp so the file always changes → scheduler stays alive
+          python3 - <<'PYEOF'
+          import json, time
+          with open('api_response_raw.json') as f:
+              data = json.load(f)
+          data['last_updated'] = int(time.time())
+          with open('api_response.json', 'w') as f:
+              json.dump(data, f)
+          import shutil
+          shutil.copy('api_response.json', 'monitors.json')
+          PYEOF
+
+          echo "fetch_ok=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.fetch.outputs.fetch_ok == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-          # Check if there are changes
-          if [[ `git status --porcelain` ]]; then
-            git add monitors.json api_response.json
-            git commit -m "Update monitors data: $(date)"
-            git push origin main
-            echo "Changes pushed successfully"
-          else
+          # Pull latest to avoid non-fast-forward push rejection
+          git pull --rebase --autostash origin main
+
+          git add monitors.json api_response.json
+
+          if git diff --cached --quiet; then
             echo "No changes to commit"
+            exit 0
           fi
+
+          git commit -m "Update monitors data: $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+          # Retry push once on failure (handles transient conflicts)
+          git push origin main || (git pull --rebase origin main && git push origin main)
+          echo "Pushed successfully"

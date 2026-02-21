@@ -2,18 +2,26 @@ function formatTimeAgo(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         return 'Нет данных';
     }
-    
+
     const now = new Date();
     const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    
+
+    if (diffMs < 0) {
+        return 'Только что';
+    }
+
+    const diffMins  = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays  = Math.floor(diffHours / 24);
+
     if (diffMins < 1) {
         return 'Только что';
     } else if (diffMins < 60) {
         return `${diffMins} мин. назад`;
-    } else {
-        const diffHours = Math.floor(diffMins / 60);
+    } else if (diffHours < 24) {
         return `${diffHours} ч. назад`;
+    } else {
+        return `${diffDays} дн. назад`;
     }
 }
 

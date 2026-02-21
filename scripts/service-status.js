@@ -2,18 +2,26 @@ function formatTimeAgo(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         return 'Нет данных';
     }
-    
+
     const now = new Date();
     const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    
+
+    if (diffMs < 0) {
+        return 'Только что';
+    }
+
+    const diffMins  = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays  = Math.floor(diffHours / 24);
+
     if (diffMins < 1) {
         return 'Только что';
     } else if (diffMins < 60) {
         return diffMins + ' мин. назад';
-    } else {
-        const diffHours = Math.floor(diffMins / 60);
+    } else if (diffHours < 24) {
         return diffHours + ' ч. назад';
+    } else {
+        return diffDays + ' дн. назад';
     }
 }
 
@@ -32,7 +40,6 @@ function getFaviconForService(name, url) {
 
 async function fetchServiceStatus() {
     try {
-        // Determine if we're running locally or on GitHub Pages
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         
         let response;
@@ -47,9 +54,13 @@ async function fetchServiceStatus() {
         }
         
         const data = await response.json();
-        
+
         if (data.stat === 'ok') {
-            updateServiceStatus(data.monitors);
+            const dataAge = data.last_updated
+                ? Math.floor((Date.now() / 1000) - data.last_updated)
+                : null;
+            const isStale = dataAge !== null && dataAge > 7200; // > 2 hours
+            updateServiceStatus(data.monitors, isStale, dataAge);
         } else {
             showErrorMessage();
         }
@@ -58,9 +69,26 @@ async function fetchServiceStatus() {
     }
 }
 
-function updateServiceStatus(monitors) {
+function updateServiceStatus(monitors, isStale, dataAge) {
     const servicesGrid = document.getElementById('servicesGrid');
     servicesGrid.innerHTML = '';
+
+    const existingBanner = document.getElementById('staleBanner');
+    if (existingBanner) existingBanner.remove();
+
+    if (isStale) {
+        const ageHours = Math.floor(dataAge / 3600);
+        const ageDays  = Math.floor(ageHours / 24);
+        const ageText  = ageDays >= 1 ? ageDays + ' дн.' : ageHours + ' ч.';
+        const banner = document.createElement('div');
+        banner.id = 'staleBanner';
+        banner.className = 'stale-banner';
+        banner.innerHTML =
+            '<i class="fas fa-exclamation-triangle"></i> ' +
+            'Данные мониторинга устарели (' + ageText + ' назад). ' +
+            'Автообновление не работает — проверьте GitHub Actions.';
+        servicesGrid.parentNode.insertBefore(banner, servicesGrid);
+    }
     
     if (monitors && monitors.length > 0) {
         monitors.forEach(monitor => {
