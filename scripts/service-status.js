@@ -56,7 +56,7 @@ async function fetchServiceStatus() {
         const data = await response.json();
 
         if (data.stat === 'ok') {
-            updateServiceStatus(data.monitors);
+            updateServiceStatus(data.monitors, data.last_updated);
         } else {
             showErrorMessage();
         }
@@ -65,11 +65,14 @@ async function fetchServiceStatus() {
     }
 }
 
-function updateServiceStatus(monitors) {
+function updateServiceStatus(monitors, lastUpdated) {
     const servicesGrid = document.getElementById('servicesGrid');
     servicesGrid.innerHTML = '';
 
-    
+    const lastCheckText = lastUpdated
+        ? formatTimeAgo(new Date(lastUpdated * 1000))
+        : 'Нет данных';
+
     if (monitors && monitors.length > 0) {
         monitors.forEach(monitor => {
             let status, statusText;
@@ -87,27 +90,12 @@ function updateServiceStatus(monitors) {
                     status = 'warning';
                     statusText = 'Проблемы';
             }
-            
+
             const card = document.createElement('div');
             card.className = 'service-card';
             card.dataset.status = status;
-            
+
             const favicon = getFaviconForService(monitor.friendly_name, monitor.url);
-            
-            let lastCheckText = 'Нет данных';
-            if (monitor.response_times && monitor.response_times.length > 0) {
-                const lastResponse = monitor.response_times[0];
-                if (lastResponse.datetime) {
-                    lastCheckText = formatTimeAgo(new Date(lastResponse.datetime * 1000));
-                }
-            } else if (monitor.logs && monitor.logs.length > 0) {
-                const lastLog = monitor.logs[0];
-                if (lastLog.datetime) {
-                    lastCheckText = formatTimeAgo(new Date(lastLog.datetime * 1000));
-                }
-            } else if (monitor.create_datetime) {
-                lastCheckText = formatTimeAgo(new Date(monitor.create_datetime * 1000));
-            }
             
             let uptimePercentage = 'Нет данных';
             let uptimeClass = 'unknown';
