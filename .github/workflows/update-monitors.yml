@@ -24,25 +24,27 @@ jobs:
         run: |
           HTTP_CODE=$(curl -s -o api_response_raw.json -w "%{http_code}" \
             --connect-timeout 20 \
-            --max-time 45 \
+            --max-time 60 \
             -X POST "https://api.uptimerobot.com/v2/getMonitors" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Cache-Control: no-cache" \
-            -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&response_times=1&response_times_average=30&custom_uptime_ratios=7")
+            -d "api_key=${{ secrets.UPTIMEROBOT_API_KEY }}&format=json&logs=1&logs_limit=50&response_times=1&response_times_limit=30&response_times_average=30&custom_uptime_ratios=7")
 
           echo "HTTP status: $HTTP_CODE"
+          echo "Response size: $(wc -c < api_response_raw.json) bytes"
 
           # Abort if HTTP error
           if [ "$HTTP_CODE" != "200" ]; then
-            echo "::warning::UptimeRobot API returned HTTP $HTTP_CODE — skipping update"
-            exit 0
+            echo "::error::UptimeRobot API returned HTTP $HTTP_CODE"
+            exit 1
           fi
 
           # Validate: must be JSON with stat=ok
           STAT=$(python3 -c "import json,sys; d=json.load(open('api_response_raw.json')); print(d.get('stat',''))" 2>/dev/null || echo "parse_error")
           if [ "$STAT" != "ok" ]; then
-            echo "::warning::API stat='$STAT' (not ok) — skipping update"
-            exit 0
+            ERR=$(python3 -c "import json; d=json.load(open('api_response_raw.json')); print(d.get('error',{}))" 2>/dev/null || echo "unknown")
+            echo "::error::UptimeRobot stat='$STAT', error: $ERR"
+            exit 1
           fi
 
           # Inject last_updated timestamp so the file always changes → scheduler stays alive
